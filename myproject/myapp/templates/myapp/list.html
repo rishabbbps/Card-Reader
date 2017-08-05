@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <title>Visiting Cards Scanner</title>
+</head>
+
+<body>
+<!-- List of uploaded documents -->
+{% if documents %}
+    <ul>
+        {% for document,doc in documents %}
+            <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
+
+
+            <div class="btn btn-primary">
+                Company:
+                {{ doc.2 }}
+            </div>
+            <div class="btn btn-primary">
+                Person/private email:
+                {{ doc.1 }}
+            </div>
+                <div class="btn btn-primary">
+                Location:
+                {{ doc.0}}
+            </div>
+<div class="btn btn-primary">
+                Zipcode:
+                {{ doc.3 }}
+            </div>
+            <div class="btn btn-primary">
+                Emails:
+                {{ doc.4 }}
+            </div>
+            <div class="btn btn-primary">
+                Phone nos:
+                {{ doc.5 }}
+            </div>
+
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No documents.</p>
+{% endif %}
+
+<!-- Upload form. Note enctype attribute! -->
+<form action="{% url "list" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>{{ form.non_field_errors }}</p>
+    <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+    <p>
+        {{ form.docfile.errors }}
+        {{ form.docfile }}
+    </p>
+    <p><input type="submit" value="Upload"/></p>
+</form>
+
+</body>
+
+</html>
